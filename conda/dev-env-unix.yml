@@ -1,0 +1,8 @@
+name: csp-zmq
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - clang-format
+  - cppzmq
+  - csp >= 0.0.5

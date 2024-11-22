@@ -1,0 +1,157 @@
+[build-system]
+requires = [
+    "cmake",
+    "ruamel.yaml",
+    "scikit-build",
+    "setuptools>=69,<74",
+    "typing-extensions",
+]
+build-backend="setuptools.build_meta"
+
+[project]
+name = "csp-zeromq-adapter"
+authors = [{name = "Will Rieger"}]
+description="csp-zeromq-adapter is an extension library to add suport for ZeroMQ, written in C++ and Python"
+readme = "README.md"
+version = "0.0.0"
+requires-python = ">=3.8"
+
+dependencies = [
+    "backports.zoneinfo; python_version<'3.9'",
+    "packaging",
+    "psutil",
+    "pytz",
+    "ruamel.yaml",
+    "typing-extensions",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+
+[project.license]
+file = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/wrieg123/csp-zeromq-adapter"
+Homepage = "https://github.com/wrieg123/csp-zeromq-adapter"
+Tracker = "https://github.com/wrieg123/csp-zeromq-adapter/issues"
+
+[project.optional-dependencies]
+develop = [
+    # build/dist
+    "bump-my-version",
+    "build",
+    "ruamel.yaml",
+    "scikit-build",
+    "twine",
+    "wheel",
+    # lint
+    "clang-format",
+    "codespell>=2.2.6,<2.3",
+    "isort>=5,<6",
+    "mdformat==0.7.17",  # >0.7.17 doesnot support python 3.8
+    "ruff>=0.3,<0.4",
+    # test
+    "pytest",
+    "pytest-cov",
+    "pytest-sugar",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-sugar",
+]
+
+[tool.bumpversion]
+current_version = "0.0.0"
+commit = false
+tag = false
+commit_args = "-s"
+
+[[tool.bumpversion.files]]
+filename = "csp_zeromq_adapter/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "setup.py"
+search = 'version="{current_version}"'
+replace = 'version="{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "CMakeLists.txt"
+search = 'project(csp_zeromq_adapter VERSION "{current_version}")'
+replace = 'project(csp_zeromq_adapter VERSION "{new_version}")'
+
+[tool.check-manifest]
+ignore = []
+
+[tool.cibuildwheel]
+build = "cp38-* cp39-* cp310-* cp311-* cp312-*"
+test-command = "echo 'TODO'"
+test-requires = [
+    "pytest",
+    "pytest-cov",
+    "pytest-sugar",
+    "pytest-xdist",
+]
+
+[tool.cibuildwheel.linux]
+before-all ="""
+rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux &&
+dnf config-manager --set-enabled powertools &&
+dnf install epel-release -y &&
+make dependencies-fedora
+"""
+environment = {CSPZMQ_MANYLINUX="ON"}
+repair-wheel-command = "auditwheel -v show {wheel} && LD_LIBRARY_PATH=/project/csp_zeromq_adapter/lib auditwheel -v repair -w {dest_dir} {wheel}"
+skip = "*i686 musllinux*"
+manylinux-x86_64-image = "manylinux_2_28"
+
+[tool.cibuildwheel.macos]
+before-all ="make dependencies-mac"
+archs = "x86_64"  # NOTE: we use gcc and we cannot cross compile for now
+
+[tool.cibuildwheel.windows]
+before-all = "make dependencies-win"
+before-build = "make requirements"
+
+archs = "AMD64"
+skip = "*win32 *arm_64"
+
+[tool.isort]
+combine_as_imports = true
+include_trailing_comma = true
+line_length = 120
+profile = "black"
+
+default_section = "THIRDPARTY"
+sections = "FUTURE,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+
+known_first_party = "csp_zeromq_adapter"
+
+[tool.pytest.ini_options]
+testpaths = "csp_zeromq_adapter/tests"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+"csp_zeromq_adapter/impl/__*.py" = ["F401"]
+"csp_zeromq_adapter/tests/*.py" = ["F401", "F403", "F811", "F821", "F841", "F842", "E731", "E741"]
