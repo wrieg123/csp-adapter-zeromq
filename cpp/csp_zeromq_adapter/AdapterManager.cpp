@@ -31,6 +31,16 @@ InputAdapter* ZeroMQAdapterManager::createSubInputAdapter(
   return ctx_mgr_ptr_->registerSubInputAdapter(type, pushMode, properties);
 }
 
+OutputAdapter* ZeroMQAdapterManager::createPushOutputAdapter(
+    CspTypePtr& type, const Dictionary& properties) {
+  return ctx_mgr_ptr_->registerPushOutputAdapter(type, properties);
+}
+
+InputAdapter* ZeroMQAdapterManager::createPullInputAdapter(
+    CspTypePtr& type, PushMode pushMode, const Dictionary& properties) {
+  return ctx_mgr_ptr_->registerPullInputAdapter(type, pushMode, properties);
+}
+
 DateTime ZeroMQAdapterManager::processNextSimTimeSlice(DateTime time) {
   return DateTime::NONE();
 }

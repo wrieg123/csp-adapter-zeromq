@@ -28,6 +28,11 @@ class ZeroMQAdapterManager final : public AdapterManager {
                                         const Dictionary& properties);
   InputAdapter* createSubInputAdapter(CspTypePtr& type, PushMode pushMode,
                                       const Dictionary& properties);
+  OutputAdapter* createPushOutputAdapter(CspTypePtr& type,
+                                         const Dictionary& properties);
+  InputAdapter* createPullInputAdapter(CspTypePtr& type, PushMode pushMode,
+                                       const Dictionary& properties);
+
   DateTime processNextSimTimeSlice(DateTime time) override;
 
  private:

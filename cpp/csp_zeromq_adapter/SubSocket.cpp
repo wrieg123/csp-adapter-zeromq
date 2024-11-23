@@ -29,9 +29,9 @@ void SubSocket::run() {
         {static_cast<void*>(input_adapters_[i].first), 0, ZMQ_POLLIN, 0});
   }
 
+  zmq::message_t msgPart;
   while (engine_running_) {
     const int n = zmq::poll(items.data(), items.size(), timeout_);
-    zmq::message_t msgPart;
     if (n) {
       PushBatch batch = PushBatch(engine_->rootEngine());
       for (int i = 0; i < input_adapters_.size(); ++i) {

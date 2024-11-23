@@ -4,6 +4,9 @@ set(ZMQ_HEADERS
     GenericPushInputAdapter.h
     PubOutputAdapter.h
     PubSocket.h
+    PullSocket.h
+    PushOutputAdapter.h
+    PushSocket.h
     SocketWrapper.h
     StructWriter.h
     SubSocket.h
@@ -15,6 +18,9 @@ set(ZMQ_SOURCE
     GenericPushInputAdapter.cpp
     PubOutputAdapter.cpp
     PubSocket.cpp
+    PullSocket.cpp
+    PushOutputAdapter.cpp
+    PushSocket.cpp
     SocketWrapper.cpp
     StructWriter.cpp
     SubSocket.cpp

@@ -10,11 +10,15 @@ ContextManager::~ContextManager() {};
 void ContextManager::start() {
   for (const auto& pair : pub_output_adapters_) pair.second->start();
   for (const auto& pair : sub_input_adapters_) pair.second->start();
+  for (const auto& socket : push_socket_adapters_) socket->start();
+  for (const auto& socket : pull_socket_adapters_) socket->start();
 }
 
 void ContextManager::stop() {
   for (const auto& pair : pub_output_adapters_) pair.second->stop();
   for (const auto& pair : sub_input_adapters_) pair.second->stop();
+  for (const auto& socket : push_socket_adapters_) socket->stop();
+  for (const auto& socket : pull_socket_adapters_) socket->stop();
 }
 
 OutputAdapter* ContextManager::registerPubOutputAdapter(
@@ -54,6 +58,41 @@ InputAdapter* ContextManager::registerSubInputAdapter(
                                                           messageMapper);
 
   sub_input_adapters_[host]->addAdapter(topic, inputAdapter);
+
+  return inputAdapter;
+}
+
+OutputAdapter* ContextManager::registerPushOutputAdapter(
+    CspTypePtr& type, const Dictionary& properties) {
+  const Dictionary& connectionDetails = getConnectionDetails(properties);
+  const Dictionary& messageMapper = getMessageMapper(properties);
+
+  std::string host = connectionDetails.get<std::string>("uri");
+
+  push_socket_adapters_.push_back(std::make_unique<PushSocket>(
+      ctx_, host, connectionDetails.get<bool>("bind"),
+      connectionDetails.get<bool>("connect"),
+      connectionDetails.get<TimeDelta>("timeout")));
+
+  return engine_->createOwnedObject<PushOutputAdapter>(
+      type, *push_socket_adapters_[push_socket_adapters_.size() - 1].get(),
+      messageMapper);
+}
+
+InputAdapter* ContextManager::registerPullInputAdapter(
+    CspTypePtr& type, PushMode pushMode, const Dictionary& properties) {
+  const Dictionary& connectionDetails = getConnectionDetails(properties);
+  const Dictionary& messageMapper = getMessageMapper(properties);
+
+  std::string host = connectionDetails.get<std::string>("uri");
+
+  GenericPushInputAdapter* inputAdapter =
+      engine_->createOwnedObject<GenericPushInputAdapter>(type, pushMode,
+                                                          messageMapper);
+  pull_socket_adapters_.push_back(std::make_unique<PullSocket>(
+      engine_, ctx_, inputAdapter, host, connectionDetails.get<bool>("bind"),
+      connectionDetails.get<bool>("connect"),
+      connectionDetails.get<TimeDelta>("timeout")));
 
   return inputAdapter;
 }

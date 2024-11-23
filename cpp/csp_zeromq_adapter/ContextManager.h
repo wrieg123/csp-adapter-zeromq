@@ -9,6 +9,9 @@
 #include <csp_zeromq_adapter/GenericPushInputAdapter.h>
 #include <csp_zeromq_adapter/PubOutputAdapter.h>
 #include <csp_zeromq_adapter/PubSocket.h>
+#include <csp_zeromq_adapter/PullSocket.h>
+#include <csp_zeromq_adapter/PushOutputAdapter.h>
+#include <csp_zeromq_adapter/PushSocket.h>
 #include <csp_zeromq_adapter/SubSocket.h>
 
 #include <unordered_map>
@@ -30,6 +33,10 @@ class ContextManager {
                                           const Dictionary& properties);
   InputAdapter* registerSubInputAdapter(CspTypePtr& type, PushMode pushMode,
                                         const Dictionary& properties);
+  OutputAdapter* registerPushOutputAdapter(CspTypePtr& type,
+                                           const Dictionary& properties);
+  InputAdapter* registerPullInputAdapter(CspTypePtr& type, PushMode pushMode,
+                                         const Dictionary& properties);
 
  private:
   inline const Dictionary& getConnectionDetails(const Dictionary& properties);
@@ -43,6 +50,8 @@ class ContextManager {
       pub_output_adapters_;
   std::unordered_map<std::string, std::unique_ptr<SubSocket>>
       sub_input_adapters_;
+  std::vector<std::unique_ptr<PushSocket>> push_socket_adapters_;
+  std::vector<std::unique_ptr<PullSocket>> pull_socket_adapters_;
 };
 
 }  // namespace csp_zeromq_adapter
