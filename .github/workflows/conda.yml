@@ -35,7 +35,7 @@ jobs:
             - ubuntu-24.04
             - macos-14
             - macos-12
-            # - windows-2019
+            - windows-2019
       runs-on: ${{ matrix.os }}
       steps:
         - name: Checkout
@@ -54,7 +54,7 @@ jobs:
         - uses: mamba-org/setup-micromamba@v1
           with:
             micromamba-version: '1.5.7-0'
-            environment-file: conda/dev-env-win.yml
+            environment-file: conda/dev-env-unix.yml
             init-shell: >-
               cmd.exe
             cache-environment: true
@@ -81,7 +81,7 @@ jobs:
 
         - name: Python Build Steps ( Windows )
           env:
-            CSP_GENERATOR: "Visual Studio 16 2019"
+            CSPZMQ_GENERATOR: "Visual Studio 16 2019"
           run: make build
           shell: cmd /C call {0}
           if: ${{ runner.os == 'Windows' }}

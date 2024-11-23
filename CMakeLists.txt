@@ -218,12 +218,10 @@ include_directories(${CSP_INCLUDE_DIR})
 # prefix is _ by default
 set(CMAKE_SHARED_LIBRARY_PREFIX _)
 
+set(CMAKE_STATIC_LIBRARY_SUFFIX _static.a)
 if(NOT WIN32)
     # shared suffix is .so for both linux and mac
     set(CMAKE_SHARED_LIBRARY_SUFFIX .so)
-
-    # static suffix is _static.a # TODO decide if we want this
-    set(CMAKE_STATIC_LIBRARY_SUFFIX _static.a)
 else()
     # shared suffix is .pyd for windows
     set(CMAKE_SHARED_LIBRARY_SUFFIX .pyd)
