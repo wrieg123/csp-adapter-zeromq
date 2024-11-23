@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 @pytest.fixture
 def timeout_realtime_engine_node():
     @csp.node
-    def _timeout_node(timeout: timedelta = timedelta(seconds=10)) -> csp.ts[bool]:
+    def _timeout_node(timeout: timedelta = timedelta(seconds=3)) -> csp.ts[bool]:
         with csp.alarms():
             a_timeout: ts[bool] = csp.alarm(bool)
 

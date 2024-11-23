@@ -1,8 +1,9 @@
 import csp
 import pytz
+from csp import ts
 from datetime import datetime, timedelta
 
-from csp_zeromq_adapter import PubSocket, SubSocket, ZeroMQAdapter
+from csp_zeromq_adapter import PushSocket, ZeroMQAdapter
 
 
 @csp.node
@@ -38,19 +39,15 @@ def g(n: int):
     adapter_manager = ZeroMQAdapter()
 
     # Bind the socket to the uri
-    pub_socket: PubSocket = adapter_manager.pub(uri="tcp://*:5555", bind=True)
+    push_socket: PushSocket = adapter_manager.push(uri="tcp://*:5556", bind=True)
 
     # Connect to the socket
-    sub_socket: SubSocket = adapter_manager.sub(uri="tcp://127.0.0.1:5555", connect=True)
+    subscribed: ts[str] = adapter_manager.pull(uri="tcp://127.0.0.1:5556", ts_type=str, connect=True)
 
     # Publish messages over
     published_messages = publisher_node()
-    pub_socket.publish(topic="", edge=published_messages)
+    push_socket.push(published_messages)
     csp.print("published", published_messages)
-
-    # Subscribe to topics
-    subscribed = sub_socket.subscribe("", str)
-
     csp.print("received", subscribed)
 
     # Stop the engine after a certain number of messages have been recieved on a topic

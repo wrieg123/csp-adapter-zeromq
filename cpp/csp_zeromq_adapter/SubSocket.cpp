@@ -29,12 +29,12 @@ void SubSocket::run() {
         {static_cast<void*>(input_adapters_[i].first), 0, ZMQ_POLLIN, 0});
   }
 
+  zmq::message_t msgPart;
   while (engine_running_) {
     const int n = zmq::poll(items.data(), items.size(), timeout_);
-    zmq::message_t msgPart;
     if (n) {
       PushBatch batch = PushBatch(engine_->rootEngine());
-      for (int i = 0; i < input_adapters_.size(); ++i) {
+      for (size_t i = 0; i < input_adapters_.size(); ++i) {
         if (items[i].revents & ZMQ_POLLIN) {
           auto& socket = input_adapters_[i].first;
           while (socket.get(zmq::sockopt::events) & ZMQ_POLLIN) {

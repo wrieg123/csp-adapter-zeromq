@@ -6,9 +6,9 @@ A [csp](https://github.com/point72/csp) adapter for [zeromq](https://zeromq.org)
 
 Exposes the following patterns:
 - Pub / Sub 
-
-In progress
 - Push / Pull
+
+In progress:
 - Req / Rep
 
 ## Development
