@@ -1,0 +1,37 @@
+name: Setup Python
+description: 'Ensure python is installed, and setup pypi caching'
+
+inputs:
+  version:
+    type: choice
+    description: "Version to install"
+    options:
+      - '3.8'
+      - '3.9'
+      - '3.10'
+      - '3.11'
+      - '3.12'
+    default: '3.9'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup pip cache
+      uses: actions/cache@v4
+      with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+              pip-${{ runner.os }}
+
+    - name: Set up Python ${{ inputs.version }}
+      uses: actions/setup-python@v5
+      with:
+          python-version: ${{ inputs.version }}
+          # TODO consider re-adding this and/or removing the pip cache
+          # cache: "pip"
+          # cache-dependency-path: 'pyproject.toml'
+
+    - name: Install cibuildwheel and twine
+      shell: bash
+      run: pip install cibuildwheel==2.16.5 twine

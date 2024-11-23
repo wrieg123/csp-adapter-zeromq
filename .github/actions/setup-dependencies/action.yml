@@ -1,0 +1,38 @@
+name: Set up dependencies
+description: 'Install dependencies per platform'
+
+inputs:
+  cibuildwheel:
+    type: choice
+    description: "cibuildwheel run"
+    options:
+      - 'cp38'
+      - 'cp39'
+      - 'cp310'
+      - 'cp311'
+      - 'cp312'
+    default: 'cp39'
+
+runs:
+  using: 'composite'
+  steps:
+    ################
+    # Dependencies #
+    ################
+    - name: Install python dependencies
+      shell: bash
+      run: make requirements
+
+    ################
+    # Mac
+    - name: Mac init steps
+      shell: bash
+      run: make dependencies-mac
+      if: ${{ runner.os == 'macOS' }}
+
+    # ################
+    # # Windows
+    - name: Windows init steps (vc143)
+      shell: bash
+      run: make dependencies-win
+      if: ${{ runner.os == 'Windows' }}

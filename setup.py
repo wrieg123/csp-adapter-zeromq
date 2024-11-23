@@ -2,7 +2,6 @@ import multiprocessing
 import os
 import os.path
 import platform
-import subprocess
 import sys
 from shutil import which
 from skbuild import setup
