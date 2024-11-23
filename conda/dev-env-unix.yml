@@ -6,3 +6,8 @@ dependencies:
   - clang-format
   - cppzmq
   - csp >= 0.0.5
+  - isort>=5,<6
+  - pytest
+  - ruff>=0.3,<0.4
+  - scikit-build
+  - setuptools>=69,<74
