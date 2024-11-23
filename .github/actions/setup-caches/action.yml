@@ -1,0 +1,17 @@
+name: Setup Caches
+description: 'Ensure various caches are setup like homebrew, ccache, etc'
+
+runs:
+  using: 'composite'
+  steps:
+    # Setup CCache
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2.12
+      with:
+        key: ccache-${{ runner.os }}-${{ runner.arch }}
+        append-timestamp: false  # avoid excess caching
+
+    - name: Setup ccache in shell
+      shell: bash
+      run: echo 'PATH=/usr/lib/ccache:/usr/local/opt/ccache/libexec:'"$PATH" >> $GITHUB_ENV
+      if: ${{ runner.os != 'Windows' }}
