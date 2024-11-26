@@ -98,9 +98,9 @@ _skbuild/
 target/
 lib/
 lib64/
-csp_zeromq_adapter/bin/
-csp_zeromq_adapter/include/
-csp_zeromq_adapter/lib/
+csp_adapter_zeromq/bin/
+csp_adapter_zeromq/include/
+csp_adapter_zeromq/lib/
 *.so
 *.tsbuildinfo
 

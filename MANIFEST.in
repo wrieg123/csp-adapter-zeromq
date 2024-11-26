@@ -4,7 +4,7 @@ include NOTICE
 include README.md
 
 # Python files
-graft csp_zeromq_adapter 
+graft csp_adapter_zeromq 
 include pyproject.toml
 include setup.py
 

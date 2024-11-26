@@ -3,7 +3,7 @@ import pytz
 from csp import ts
 from datetime import datetime, timedelta
 
-from csp_zeromq_adapter import PushSocket, ZeroMQAdapter
+from csp_adapter_zeromq import PushSocket, ZeroMQAdapter
 
 
 @csp.node

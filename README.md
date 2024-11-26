@@ -1,4 +1,4 @@
-# csp zeromq adapter
+# csp adapter zeromq
 
 A [csp](https://github.com/point72/csp) adapter for [zeromq](https://zeromq.org).
 
@@ -16,8 +16,8 @@ In progress:
 We utilize conda for managing environment dependencies. In order to create your development environment:
 
 ```bash
-git clone https://github.com/wrieg123/csp-zeromq-adapter.git
-cd csp-zeromq-adapter
+git clone https://github.com/wrieg123/csp-adapter-zeromq.git
+cd csp-adapter-zeromq
 micromamba create -n csp-zmq -f conda/dev-env-unix.yml
 micromamba activate csp-zmq
 make requirements

@@ -2,7 +2,7 @@ import csp
 import pytz
 from datetime import datetime, timedelta
 
-from csp_zeromq_adapter import PubSocket, SubSocket, ZeroMQAdapter
+from csp_adapter_zeromq import PubSocket, SubSocket, ZeroMQAdapter
 
 
 @csp.node
