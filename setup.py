@@ -62,9 +62,9 @@ if which("ccache") and os.environ.get("CSPZMQ_USE_CCACHE", "") != "0":
 print(f"CMake Args: {cmake_args}")
 
 setup(
-    name="csp_zeromq_adapter",
+    name="csp_adapter_zeromq",
     version="0.0.0",
-    packages=["csp_zeromq_adapter"],
-    cmake_install_dir="csp_zeromq_adapter",
+    packages=["csp_adapter_zeromq"],
+    cmake_install_dir="csp_adapter_zeromq",
     cmake_args=cmake_args,
 )

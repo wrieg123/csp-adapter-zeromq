@@ -2,7 +2,7 @@ import csp
 import pytz
 from datetime import datetime, timedelta
 
-from csp_zeromq_adapter import ZeroMQAdapter
+from csp_adapter_zeromq import ZeroMQAdapter
 
 
 @csp.node

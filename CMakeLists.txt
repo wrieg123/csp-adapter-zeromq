@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20.0)
-project(csp-zeromq-adapter VERSION "0.0.0")
+project(csp-adapter-zeromq VERSION "0.0.0")
 set(CMAKE_CXX_STANDARD 20)
 
 include(CheckCCompilerFlag)
@@ -249,4 +249,4 @@ else()
     set(CSPZMQ_RUNTIME_INSTALL_SUBDIR bin/)
 endif()
 
-add_subdirectory(cpp/csp_zeromq_adapter)
+add_subdirectory(cpp/csp_adapter_zeromq)

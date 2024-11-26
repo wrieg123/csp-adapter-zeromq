@@ -29,9 +29,9 @@ install:  ## install library
 .PHONY: lint-py lint-cpp lint lints fix-py fix-cpp fix format check checks
 
 lint-py:
-	python -m isort --check csp_zeromq_adapter/ examples/ setup.py
-	python -m ruff check csp_zeromq_adapter/ examples/ setup.py
-	python -m ruff format --check csp_zeromq_adapter/ examples/ setup.py
+	python -m isort --check csp_adapter_zeromq/ examples/ setup.py
+	python -m ruff check csp_adapter_zeromq/ examples/ setup.py
+	python -m ruff format --check csp_adapter_zeromq/ examples/ setup.py
 
 lint-cpp:
 	clang-format --dry-run -Werror -i `find ./cpp/ -name "*.*pp" -o -name "*.h"` -style=Google
@@ -47,8 +47,8 @@ lint: lint-py lint-cpp
 lints: lint
 
 fix-py:
-	python -m isort csp_zeromq_adapter/ examples/ setup.py
-	python -m ruff format csp_zeromq_adapter/ examples/ setup.py
+	python -m isort csp_adapter_zeromq/ examples/ setup.py
+	python -m ruff format csp_adapter_zeromq/ examples/ setup.py
 
 fix-cpp:
 	clang-format -i `find ./cpp/ -name "*.*pp" -o -name "*.h"` -style=Google
@@ -75,10 +75,10 @@ checks: check
 
 TEST_ARGS :=
 test-py: ## Clean and Make unit tests
-	python -m pytest -v csp_zeromq_adapter/tests --junitxml=junit.xml $(TEST_ARGS)
+	python -m pytest -v csp_adapter_zeromq/tests --junitxml=junit.xml $(TEST_ARGS)
 
 coverage-py:
-	python -m pytest -v csp_zeromq_adapter/tests --junitxml=junit.xml --cov=csp --cov-report xml --cov-report html --cov-branch --cov-fail-under=80 --cov-report term-missing $(TEST_ARGS)
+	python -m pytest -v csp_adapter_zeromq/tests --junitxml=junit.xml --cov=csp --cov-report xml --cov-report html --cov-branch --cov-fail-under=80 --cov-report term-missing $(TEST_ARGS)
 
 test: test-py  ## run the tests
 
@@ -109,7 +109,7 @@ major:
 
 dist-py: dist-py-sdist  # Build python dist
 dist-py-sdist:
-	rm -rf csp_zeromq_adapter/lib/*
+	rm -rf csp_adapter_zeromq/lib/*
 	python -m build --sdist -n
 
 dist-py-wheel:
@@ -139,7 +139,7 @@ deep-clean: ## clean everything from the repository
 clean: ## clean the repository
 ifneq ($(OS),Windows_NT)
 	rm -rf .coverage coverage cover htmlcov logs build dist wheelhouse *.egg-info
-	rm -rf csp_zeromq_adapter/lib csp_zeromq_adapter/bin csp_zeromq_adapter/include _skbuild
+	rm -rf csp_adapter_zeromq/lib csp_adapter_zeromq/bin csp_adapter_zeromq/include _skbuild
 else
 	del /s /q .coverage coverage cover htmlcov logs build dist wheelhouse *.egg-info
 	del /s/ q csp\lib csp\bin csp\include _skbuild

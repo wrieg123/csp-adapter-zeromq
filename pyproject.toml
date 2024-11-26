@@ -9,9 +9,9 @@ requires = [
 build-backend="setuptools.build_meta"
 
 [project]
-name = "csp-zeromq-adapter"
+name = "csp_adapter_zeromq"
 authors = [{name = "Will Rieger"}]
-description="csp-zeromq-adapter is an extension library to add suport for ZeroMQ, written in C++ and Python"
+description="csp-adapter-zeromq is an extension library to add suport for ZeroMQ, written in C++ and Python"
 readme = "README.md"
 version = "0.0.0"
 requires-python = ">=3.8"
@@ -42,9 +42,9 @@ classifiers = [
 file = "LICENSE"
 
 [project.urls]
-Repository = "https://github.com/wrieg123/csp-zeromq-adapter"
-Homepage = "https://github.com/wrieg123/csp-zeromq-adapter"
-Tracker = "https://github.com/wrieg123/csp-zeromq-adapter/issues"
+Repository = "https://github.com/wrieg123/csp-adapter-zeromq"
+Homepage = "https://github.com/wrieg123/csp-adapter-zeromq"
+Tracker = "https://github.com/wrieg123/csp-adapter-zeromq/issues"
 
 [project.optional-dependencies]
 develop = [
@@ -79,7 +79,7 @@ tag = false
 commit_args = "-s"
 
 [[tool.bumpversion.files]]
-filename = "csp_zeromq_adapter/__init__.py"
+filename = "csp_adapter_zeromq/__init__.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
 
@@ -95,8 +95,8 @@ replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
 filename = "CMakeLists.txt"
-search = 'project(csp_zeromq_adapter VERSION "{current_version}")'
-replace = 'project(csp_zeromq_adapter VERSION "{new_version}")'
+search = 'project(csp_adapter_zeromq VERSION "{current_version}")'
+replace = 'project(csp_adapter_zeromq VERSION "{new_version}")'
 
 [tool.check-manifest]
 ignore = []
@@ -119,7 +119,7 @@ dnf install epel-release -y &&
 make dependencies-fedora
 """
 environment = {CSPZMQ_MANYLINUX="ON"}
-repair-wheel-command = "auditwheel -v show {wheel} && LD_LIBRARY_PATH=/project/csp_zeromq_adapter/lib auditwheel -v repair -w {dest_dir} {wheel}"
+repair-wheel-command = "auditwheel -v show {wheel} && LD_LIBRARY_PATH=/project/csp_adapter_zeromq/lib auditwheel -v repair -w {dest_dir} {wheel}"
 skip = "*i686 musllinux*"
 manylinux-x86_64-image = "manylinux_2_28"
 
@@ -143,15 +143,15 @@ profile = "black"
 default_section = "THIRDPARTY"
 sections = "FUTURE,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 
-known_first_party = "csp_zeromq_adapter"
+known_first_party = "csp_adapter_zeromq"
 
 [tool.pytest.ini_options]
-testpaths = "csp_zeromq_adapter/tests"
+testpaths = "csp_adapter_zeromq/tests"
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401", "F403"]
-"csp_zeromq_adapter/impl/__*.py" = ["F401"]
-"csp_zeromq_adapter/tests/*.py" = ["F401", "F403", "F811", "F821", "F841", "F842", "E731", "E741"]
+"csp_adapter_zeromq/impl/__*.py" = ["F401"]
+"csp_adapter_zeromq/tests/*.py" = ["F401", "F403", "F811", "F821", "F841", "F842", "E731", "E741"]
