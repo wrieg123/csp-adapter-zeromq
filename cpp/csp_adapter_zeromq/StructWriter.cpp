@@ -3,24 +3,16 @@
 namespace csp_adapter_zeromq {
 
 StructWriter::StructWriter(CspTypePtr& type, const Dictionary& messageMapper) {
-  utils::MsgProtocol protocol =
-      utils::MsgProtocol(messageMapper.get<std::string>("protocol"));
-  switch (protocol) {
-    case utils::MsgProtocol::JSON:
-      msg_writer_ = std::make_shared<utils::JSONMessageWriter>(messageMapper);
-      break;
-
-    case utils::MsgProtocol::RAW_BYTES:
-      break;
-
-    default:
-      CSP_THROW(NotImplemented,
-                "msg protocol "
-                    << protocol
-                    << " not currently supported for csp_adapter_zeromqs");
-      break;
+  std::string protocol = messageMapper.get<std::string>("protocol");
+  if (protocol == "JSON") {
+    msg_writer_ = std::make_shared<utils::JSONMessageWriter>(messageMapper);
+  } else if (protocol == "RAW_BYTES") {
+  } else {
+    CSP_THROW(NotImplemented,
+              "msg protocol "
+                  << protocol
+                  << " not currently supported for csp_adapter_zeromqs");
   }
-
   if (!isRawBytes())
     data_mapper_ = utils::OutputDataMapperCache::instance().create(
         type, *messageMapper.get<DictionaryPtr>("field_map"));
