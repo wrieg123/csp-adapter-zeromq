@@ -73,7 +73,7 @@ test = [
 ]
 
 [tool.bumpversion]
-current_version = "0.0.0"
+current_version = "0.0.1"
 commit = false
 tag = false
 commit_args = "-s"
