@@ -63,7 +63,7 @@ print(f"CMake Args: {cmake_args}")
 
 setup(
     name="csp_adapter_zeromq",
-    version="0.0.0",
+    version="0.0.1",
     packages=["csp_adapter_zeromq"],
     cmake_install_dir="csp_adapter_zeromq",
     cmake_args=cmake_args,
